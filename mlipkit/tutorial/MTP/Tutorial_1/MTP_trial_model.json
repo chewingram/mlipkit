@@ -1,0 +1,115 @@
+{
+  "name": "MTP_trial_model",
+  "root_dir": {
+    "__type__": "Path",
+    "data": "/Users/samuel/Work/codes/python_packages/mlipkit/mlipkit/tutorial/MTP/Tutorial_1"
+  },
+  "tmp_dir": {
+    "__type__": "Path",
+    "data": "/Users/samuel/Work/codes/python_packages/mlipkit/mlipkit/tutorial/MTP/Tutorial_1/mlipkit_tmp"
+  },
+  "training_dir": {
+    "__type__": "Path",
+    "data": "/Users/samuel/Work/codes/python_packages/mlipkit/mlipkit/tutorial/MTP/Tutorial_1/training"
+  },
+  "trained_pot_dir": {
+    "__type__": "Path",
+    "data": "/Users/samuel/Work/codes/python_packages/mlipkit/mlipkit/tutorial/MTP/Tutorial_1/trained_pot"
+  },
+  "mandatory_hyperparameters_names": [
+    "mlip_bin",
+    "untrained_pot_file_dir",
+    "mtp_level",
+    "min_dist",
+    "max_dist",
+    "radial_basis_type",
+    "radial_basis_size"
+  ],
+  "optional_hyperparameters_names": [
+    "ene_weight",
+    "for_weight",
+    "str_weight",
+    "sc_b_for",
+    "val_cfg",
+    "max_iter",
+    "cur_pot_n",
+    "bfgs_tol",
+    "weighting",
+    "init_par",
+    "skip_preinit",
+    "up_mindist",
+    "bin_pref"
+  ],
+  "all_hyperparameters_names": [
+    "mlip_bin",
+    "untrained_pot_file_dir",
+    "mtp_level",
+    "min_dist",
+    "max_dist",
+    "radial_basis_type",
+    "radial_basis_size",
+    "ene_weight",
+    "for_weight",
+    "str_weight",
+    "sc_b_for",
+    "val_cfg",
+    "max_iter",
+    "cur_pot_n",
+    "bfgs_tol",
+    "weighting",
+    "init_par",
+    "skip_preinit",
+    "up_mindist",
+    "bin_pref"
+  ],
+  "mandatory_parameters_compute_properties_names": [
+    "mlip_bin"
+  ],
+  "optional_parameters_compute_properties_names": [
+    "bin_pref"
+  ],
+  "all_parameters_compute_properties_names": [
+    "mlip_bin",
+    "bin_pref"
+  ],
+  "computable_properties_names": [
+    "energy",
+    "forces",
+    "stress"
+  ],
+  "is_trainable": true,
+  "trained_pot_files": {
+    "potential_file": "pot.mtp"
+  },
+  "trained_pot_filepaths": {
+    "potential_file": {
+      "__type__": "Path",
+      "data": "/Users/samuel/Work/codes/python_packages/mlipkit/mlipkit/tutorial/MTP/Tutorial_1/trained_pot/pot.mtp"
+    }
+  },
+  "species_count": [
+    "Si"
+  ],
+  "ml_trainset": null,
+  "trainset_bck": null,
+  "is_trained": true,
+  "regular": {
+    "d": true,
+    "h": true
+  },
+  "_is_pre_trained": false,
+  "hash_train_set": "54dccf2e739e4d5e2ef1020782ff483065fe9de034fdb63ed921794fbe17296f",
+  "hash_trained_pot": "febcac6dcb493d8faaf983fca600e5441e0ce5156f3bfd6fbfe67ace63aee649",
+  "hyperparameters": {
+    "mlip_bin": "/Users/samuel/Work/codes/mlip-2/build1/mlp",
+    "untrained_pot_file_dir": "/Users/samuel/Work/codes/mlip-2/untrained_mtps/",
+    "mtp_level": 6,
+    "min_dist": 2.0448991638220204,
+    "max_dist": 4,
+    "radial_basis_type": "RBChebyshev",
+    "radial_basis_size": "8",
+    "bin_pref": "mpirun -n 6"
+  },
+  "parameters_compute_properties": {},
+  "class": "MTPModel"
+}
