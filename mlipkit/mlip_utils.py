@@ -3,7 +3,7 @@ from pathlib import Path
 
 from ase.atoms import Atoms
 
-from .utils import mae, rmse, R2, flatten, low_first, cap_first
+from .utils import mae, rmse, R2, flatten, decapitalize, capitalize
 
 
 def extract_prop_from_single_ase(structure):
@@ -151,7 +151,7 @@ def make_comparison(structures1,
         if make_file == True:
             print(f'printing in {filename.absolute()}')
             text = f'# rmse: {rmse2:.5f} {units[prop]},    mae: {mae2:.5f} {units[prop]}    R2: {R22:.5f}\n'
-            text += f'#  True {low_first(prop)}           Predicted {low_first(prop)}\n'
+            text += f'#  True {decapitalize(prop)}           Predicted {decapitalize(prop)}\n'
             for x, y in zip(ext1[i], ext2[i]):
                 text += f'{x:.20f}  {y:.20f}\n'
             with open(filename.absolute(), 'w') as fl:
