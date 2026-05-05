@@ -3,7 +3,7 @@ from pathlib import Path
 
 from ase.atoms import Atoms
 
-from .utils import mae, rmse, R2, flatten, decapitalize, capitalize
+from .utils import mae, rmse, R2, flatten, decapitalize
 
 
 def extract_prop_from_single_ase(structure):
@@ -142,7 +142,7 @@ def make_comparison(structures1,
     errs = dict()
     for prop in props:
         i = prop_numbs[prop]
-        filename = dir.joinpath(f'{outfile_pref}{cap_first(prop)}_comparison.dat')
+        filename = dir.joinpath(f'{outfile_pref}{prop.capitalize()}_comparison.dat')
         mae2 = mae(ext1[i], ext2[i])
         rmse2 = rmse(ext1[i], ext2[i])
         R22 = R2(ext1[i], ext2[i])
