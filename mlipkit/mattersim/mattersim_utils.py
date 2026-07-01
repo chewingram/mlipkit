@@ -189,6 +189,7 @@ def finetune_pot(wdir,
                 delete_sets = True,
                 final_evaluation=False,
                 eval_dir=None,
+                model_to_give='best',
                 **kwargs):
     """
     Orchestrates the fine-tuning of a MatterSim model using torchrun.
@@ -359,7 +360,7 @@ def finetune_pot(wdir,
     with open(log_path.absolute(), 'w') as log, open(err_path.absolute(), 'w') as err:
         run(cmd.split(), env=env, cwd=wdir.absolute(), stdout=log, stderr=err)
      
-    trained_model_path = saving_path.joinpath('best_model.pth')
+    trained_model_path = saving_path.joinpath(model_to_give + '_model.pth')
     
     if final_evaluation == True:
         if not eval_dir.is_dir():

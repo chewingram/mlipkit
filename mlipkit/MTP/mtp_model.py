@@ -20,8 +20,6 @@ from ..utils import flatten
 class MTPModel(MlipModel):
     '''Implementation of Moment Tensor Potential as MlipModel subclass'''
 
-    class_obj_name = 'MTP_model' # the name that will be used to save the object
-
     # training hyperparameters
     mandatory_hyperparameters_names = ['mlip_bin',
                                        'untrained_pot_file_dir',

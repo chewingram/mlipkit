@@ -13,7 +13,6 @@ from mattersim.forcefield import MatterSimCalculator
 
 
 class MatterSimModel(MlipModel):
-    class_obj_name = 'mattersim_model' # the name that will be used to save the object
 
     mandatory_hyperparameters_names = []
     optional_hyperparameters_names = ['device',
@@ -54,7 +53,7 @@ class MatterSimModel(MlipModel):
     optional_parameters_compute_properties_names = ['device']
 
     computable_properties_names = ['energy', 'forces', 'stress']
-
+    
     trained_pot_files = {'potential_file' : 'pot.pth'} # key: generic name of the file, value: actual filename
 
     trainable = True
@@ -109,7 +108,7 @@ class MatterSimModel(MlipModel):
         # note that setting them = None would not trigger the default value)
         self.hyperparameters['save_checkpoint'] = True # if False, it won't print the trained pot file
         self.hyperparameters.setdefault('set_trained_pot_as_new_starting_point', False)
-        self.hyperparameters.setdefaul('best_or_last_model', 'best')
+        self.hyperparameters.setdefault('best_or_last_model', 'best')
         self.hyperparameters.setdefault('validation_fraction', 0.2)
         self.hyperparameters.setdefault('clean_after_training', True)
         self.hyperparameters.setdefault('shuffle_dataset', True)
@@ -142,6 +141,7 @@ class MatterSimModel(MlipModel):
                                           eval_dir=None,
                                           saving_path=self.get_training_dir(),
                                           delete_sets=self.hyperparameters['clean_after_training'],
+                                          model_to_give=self.hyperparameters['best_or_last_model'],
                                           **args_to_pass)
         # after this, we take the best model and save it inside the training_directory
         src_pot = trained_model_path.resolve()

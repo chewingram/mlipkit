@@ -22,9 +22,7 @@ from .mlipkit_calculator import MlipkitCalculator
 
 
 class MlipModel(ABC):
-
-    class_obj_name = 'MlipModel'
-    _subclass_registry = {}
+    _subclass_registry = {} # old implementation, I leave it here for backwards compatibility
 
     mandatory_hyperparameters_names = []
     optional_hyperparameters_names = []
@@ -34,14 +32,14 @@ class MlipModel(ABC):
 
     computable_properties_names = []
 
-    def __init_subclass__(cls, **kwargs):
+    def __init_subclass__(cls, **kwargs): # old implementation, I leave it here for backwards compatibility
         """Automatically register subclasses in the model registry."""        
         super().__init_subclass__(**kwargs) # not really necessary in this case
         full_path = f"{cls.__module__}.{cls.__name__}"
         MlipModel._subclass_registry[cls.__name__] = full_path
     
     @classmethod
-    def _get_class_from_string(cls, class_path):
+    def _get_class_from_string(cls, class_path): # old implementation, I leave it here for backwards compatibility
         """Load a class from a string path.
 
         Args:
@@ -111,7 +109,7 @@ class MlipModel(ABC):
                  pre_trained_pot_filepaths=None):
         
         if name is None:
-            self.name = type(self).class_obj_name
+            self.name = type(self).__name__
         else:
             self.name = name
         self.root_dir = Path(root_dir)
@@ -304,7 +302,7 @@ class MlipModel(ABC):
             path (Path): the resolved path of the file
         """
         if not filename in self.trained_pot_files.keys():
-            raise RuntimeError(f"The file '{filename}' is not a potential file for the {type(self).class_obj_name} class!")
+            raise RuntimeError(f"The file '{filename}' is not a potential file for the {type(self).__name__} class!")
         if self._is_pre_trained:
             return Path(self.pre_trained_pot_filepaths[filename]).resolve()
         elif self.is_trained:
@@ -428,7 +426,9 @@ class MlipModel(ABC):
                                      save_train_set=save_train_set_if_pretrained, 
                                      train_set_saving_loc=train_set_saving_loc)
         self_dict = self._to_dict()
-        self_dict['class'] = type(self).__name__
+        #self_dict['class'] = type(self).__name__
+        self_dict['class'] = f"{type(self).__module__}.{type(self).__name__}"
+# e.g. "mlipkit.mattersim.mattersim_model.MatterSimModel"
         with open(self.root_dir.joinpath(f'{self.name}.json'), 'w') as f:
             json.dump(self_dict, f, indent=2)
             
@@ -446,7 +446,9 @@ class MlipModel(ABC):
                 
         # 2. EXTRACT STATE: _to_dict() naturally filters out the ase_calculator!
         state_dict = self._to_dict()
-        state_dict['class'] = type(self).__name__ # Inject class name for the loader
+        #state_dict['class'] = type(self).__name__ # Inject class name for the loader
+        state_dict['class'] = f"{type(self).__module__}.{type(self).__name__}"
+        # e.g. "mlipkit.mattersim.mattersim_model.MatterSimModel"   
         
         # 3. RECONSTRUCT: Build the clone pointing to the new directory
         # We pass ignore_metadata=True just to ensure smooth copying, though the files match.
@@ -538,10 +540,14 @@ class MlipModel(ABC):
             pass
         else:
             class_name = data['class']
+            class_path = data['class']
             del data['class']
-
-            if class_name not in cls._subclass_registry:
-               raise ValueError(f"Unknown subclass {class_name} in saved file.")
+            
+            if '.' in class_path:
+                real_class = cls.get_class_from_string(class_path)
+            else: # old implementation; I leave it here
+                if class_name not in cls._subclass_registry:
+                    raise ValueError(f"Unknown subclass {class_name} in saved file.")
 
             real_class = cls._get_class_from_string(cls._subclass_registry[class_name])
             
@@ -848,7 +854,7 @@ class MlipModel(ABC):
        # we need to check if all the mandatory hyperparameters are there (we already checked that no extra, unkown parameters were given)
         res = self._check_mandatory_hyperparameters()
         if res is not True: # then `res` is the name of the missing mandatory hyperparameter
-            raise KeyError(f'The {type(self).class_obj_name} object has no hyperparameter called `{res}` and you didn\'t provide any!')
+            raise KeyError(f'The {type(self).__name__} object has no hyperparameter called `{res}` and you didn\'t provide any!')
  
         # let's create the trained_pot directory
         self.get_trained_pot_dir().mkdir(parents=True, exist_ok=True)
@@ -939,7 +945,7 @@ class MlipModel(ABC):
             res = self._check_mandatory_parameters_compute_properties(parameters = parameters)
             to_pass = parameters
         if res is not True: # then `res` is the name of the missing mandatory parameter
-            raise KeyError(f'The {type(self).class_obj_name} object has no parameter called `{res}` for computing properties, and you didn\'t provide any!')
+            raise KeyError(f'The {type(self).__name__} object has no parameter called `{res}` for computing properties, and you didn\'t provide any!')
 
         # !!! If parameters are given, some extra unknown parameters could have been passed, but that's not important, as in self._compute_properties only the proper ones are used
         # However, if parameters were given to the model when initialized, any extra one was removed.
@@ -1030,7 +1036,7 @@ class MlipModel(ABC):
             res = self._check_mandatory_parameters_compute_properties()
         
         if res is not True: # then `res` is the name of the missing mandatory parameter
-            raise KeyError(f'The {type(self).class_obj_name} object has no parameter called `{res}` for computing properties, and you didn\'t provide any!')
+            raise KeyError(f'The {type(self).__name__} object has no parameter called `{res}` for computing properties, and you didn\'t provide any!')
         if parameters is not None:
             self.parameters_compute_properties = parameters
         self.ase_calculator = MlipkitCalculator(mlipkit_model=self)
