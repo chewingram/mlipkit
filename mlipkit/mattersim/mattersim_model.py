@@ -55,7 +55,6 @@ class MatterSimModel(MlipModel):
 
     computable_properties_names = ['energy', 'forces', 'stress']
 
-    trained_pot_filename = 'pot.pth' # name of the .mtp file that will be produced by the training    
     trained_pot_files = {'potential_file' : 'pot.pth'} # key: generic name of the file, value: actual filename
 
     trainable = True

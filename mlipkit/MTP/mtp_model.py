@@ -57,7 +57,6 @@ class MTPModel(MlipModel):
                                    'stress']
     
     # trained potential files
-    trained_pot_filename = 'pot.mtp' # name of the .mtp file that will be produced by the training    
     trained_pot_files = {'potential_file' : 'pot.mtp'} # key: generic name of the file, value: actual filename
 
     # trainable
