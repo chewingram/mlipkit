@@ -544,7 +544,7 @@ class MlipModel(ABC):
             del data['class']
             
             if '.' in class_path:
-                real_class = cls.get_class_from_string(class_path)
+                real_class = cls._get_class_from_string(class_path)
             else: # old implementation; I leave it here
                 if class_name not in cls._subclass_registry:
                     raise ValueError(f"Unknown subclass {class_name} in saved file.")
